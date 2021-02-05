@@ -175,5 +175,3 @@ def check_skyscrapers(input_path: str):
 
 if __name__ == "__main__":
     print(check_skyscrapers("check.txt"))
-    import doctest
-    doctest.testmod()
