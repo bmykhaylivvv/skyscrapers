@@ -1,6 +1,6 @@
 """
 My version of "Skyscrapers game" winning combination check on GitHub:
-https://github.com/bmykhaylivvv/skyscrapers/blob/main/skyscrapers.py
+https://github.com/bmykhaylivvv/skyscrapers
 """
 
 import collections
