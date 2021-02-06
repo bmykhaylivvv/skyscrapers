@@ -3,6 +3,7 @@ My version of "Skyscrapers game" winning combination check on GitHub:
 https://github.com/bmykhaylivvv/skyscrapers
 """
 
+import doctest
 import collections
 
 
@@ -10,9 +11,6 @@ def read_input(path: str):
     """
     Read game board file from path.
     Return list of str.
-
-    >>> read_input("check.txt")
-    ['***21**', '412453*', '423145*', '*543215', '*35214*', '*41532*', '*2*1***']
     """
 
     with open(path) as brd:
@@ -55,11 +53,14 @@ def check_not_finished_board(board: list):
 
     Return True if finished, False otherwise.
 
-    >>> check_not_finished_board(['***21**', '4?????*', '4?????*', '*?????5', '*?????*', '*?????*', '*2*1***'])
+    >>> check_not_finished_board(['***21**',\
+         '4?????*', '4?????*', '*?????5', '*?????*', '*?????*', '*2*1***'])
     False
-    >>> check_not_finished_board(['***21**', '412453*', '423145*', '*543215', '*35214*', '*41532*', '*2*1***'])
+    >>> check_not_finished_board(['***21**', '412453*',\
+         '423145*', '*543215', '*35214*', '*41532*', '*2*1***'])
     True
-    >>> check_not_finished_board(['***21**', '412453*', '423145*', '*5?3215', '*35214*', '*41532*', '*2*1***'])
+    >>> check_not_finished_board(['***21**', '412453*',\
+         '423145*', '*5?3215', '*35214*', '*41532*', '*2*1***'])
     False
     """
     for line in range(1, len(board)-1):
@@ -74,17 +75,20 @@ def check_uniqueness_in_rows(board: list):
 
     Return True if buildings in a row have unique length, False otherwise.
 
-    >>> check_uniqueness_in_rows(['***21**', '412453*', '423145*', '*543215', '*35214*', '*41532*', '*2*1***'])
+    >>> check_uniqueness_in_rows(['***21**', '412453*', '423145*',\
+         '*543215', '*35214*', '*41532*', '*2*1***'])
     True
-    >>> check_uniqueness_in_rows(['***21**', '452453*', '423145*', '*543215', '*35214*', '*41532*', '*2*1***'])
+    >>> check_uniqueness_in_rows(['***21**', '452453*', '423145*',\
+         '*543215', '*35214*', '*41532*', '*2*1***'])
     False
-    >>> check_uniqueness_in_rows(['***21**', '412453*', '423145*', '*553215', '*35214*', '*41532*', '*2*1***'])
+    >>> check_uniqueness_in_rows(['***21**', '412453*', '423145*',\
+         '*553215', '*35214*', '*41532*', '*2*1***'])
     False
     """
     for line in board[1:-1]:
-        dict = collections.Counter(line[1:-1])
+        dictt = collections.Counter(line[1:-1])
 
-        for number in dict.items():
+        for number in dictt.items():
             if number[1] > 1:
                 return False
     return True
@@ -98,11 +102,14 @@ def check_horizontal_visibility(board: list):
      i.e., for line 412453* , hint is 4, and 1245 are the four buildings
       that could be observed from the hint looking to the right.
 
-    >>> check_horizontal_visibility(['***21**', '412453*', '423145*', '*543215', '*35214*', '*41532*', '*2*1***'])
+    >>> check_horizontal_visibility(['***21**', '412453*', '423145*',\
+         '*543215', '*35214*', '*41532*', '*2*1***'])
     True
-    >>> check_horizontal_visibility(['***21**', '452453*', '423145*', '*543215', '*35214*', '*41532*', '*2*1***'])
+    >>> check_horizontal_visibility(['***21**', '452453*', '423145*',\
+         '*543215', '*35214*', '*41532*', '*2*1***'])
     False
-    >>> check_horizontal_visibility(['***21**', '452413*', '423145*', '*543215', '*35214*', '*41532*', '*2*1***'])
+    >>> check_horizontal_visibility(['***21**', '452413*', '423145*',\
+         '*543215', '*35214*', '*41532*', '*2*1***'])
     False
     """
     def horizontal_visibility(line):
@@ -118,22 +125,21 @@ def check_horizontal_visibility(board: list):
             if counter == pivot:
                 return True
             return False
-        pass
 
     board = board + [line[::-1] for line in board]
 
-    tf = []
-    for ln in board:
-        res = horizontal_visibility(ln)
+    truefalse = []
+    for linee in board:
+        res = horizontal_visibility(linee)
         if res is not None:
-            tf.append(res)
-
-    return all(tf)
+            truefalse.append(res)
+    return all(truefalse)
 
 
 def check_columns(board: list):
     """
-    Check column-wise compliance of the board for uniqueness (buildings of unique height) and visibility (top-bottom and vice versa).
+    Check column-wise compliance of the board for uniqueness (buildings of unique height)
+    and visibility (top-bottom and vice versa).
 
     Same as for horizontal cases, but aggregated in one function for vertical case, i.e. columns.
 
@@ -145,7 +151,7 @@ def check_columns(board: list):
     False
     """
     reversed_board = []
-    for line in range(len(board)):
+    for line, _ in enumerate(board):
         new_line = ''
         for char in range(len(board[line])):
             new_line += board[char][line]
@@ -161,9 +167,6 @@ def check_skyscrapers(input_path: str):
     Main function to check the status of skyscraper game board.
     Return True if the board status is compliant with the rules,
     False otherwise.
-
-    >>> check_skyscrapers("check.txt")
-    True
     """
     board = read_input(input_path)
 
@@ -174,4 +177,5 @@ def check_skyscrapers(input_path: str):
 
 
 if __name__ == "__main__":
+    doctest.testmod()
     print(check_skyscrapers("check.txt"))
